@@ -48,9 +48,9 @@ function stepOne() {
     stepOne();
   }
 }
-  var passwordCase = prompt("Include uppercase?");
-  var passwordNumeric = prompt("Include numbers?");
-  var passwordSpecial = prompt("Include special characters?");
+  var passwordCase = confirm("Include uppercase?");
+  var passwordNumeric = confirm("Include numbers?");
+  var passwordSpecial = confirm("Include special characters?");
 
   //"128"
   //convert string to number
