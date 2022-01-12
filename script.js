@@ -1,16 +1,16 @@
 /*
 
 GIVEN I need a new, secure password
-[ ] WHEN I click the button to generate a password
+[x] WHEN I click the button to generate a password
 [x] THEN I am presented with a series of prompts for password criteria
 
-[ ] WHEN prompted for password criteria
-[ ] THEN I select which criteria to include in the password
-[ ] WHEN prompted for the length of the password
-[ ] THEN I choose a length of at least 8 characters and no more than 128 characters
-[ ] WHEN asked for character types to include in the password
-[ ] THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-[ ] WHEN I answer each prompt
+[x] WHEN prompted for password criteria
+[x] THEN I select which criteria to include in the password
+[x] WHEN prompted for the length of the password
+[x] THEN I choose a length of at least 8 characters and no more than 128 characters
+[x] WHEN asked for character types to include in the password
+[x] THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
+[x] WHEN I answer each prompt
 [ ] THEN my input should be validated and at least one character type should be selected
 [ ] WHEN all prompts are answered
 [ ] THEN a password is generated that matches the selected criteria
@@ -38,6 +38,10 @@ function generatePassword() {
   var passwordCase = stepTwo();
   var passwordNumeric = stepThree();
   var passwordSpecial = stepFour();
+  console.log(passwordLength);
+  console.log(passwordCase);
+  console.log(passwordNumeric);
+  console.log(passwordSpecial);
 }
 
 function stepOne() {
@@ -51,7 +55,7 @@ function stepOne() {
     alert("Invalid. Pick a number of characters between 8-128.");
     stepOne(); //After alert, user will be prompted again.
   }
-  return;//On to next step!
+  return stringToNum; //returns user's choice to passwordLength.
 }
 
 function stepTwo() {
@@ -61,7 +65,7 @@ function stepTwo() {
   } else {//if false,
     alert("Okay, only lowercase then!");
   }
-  return;
+  return passwordCase;
 }
 
 function stepThree() {
@@ -71,7 +75,7 @@ function stepThree() {
   } else {//if false,
     alert("No numbers, got it.");
   }
-  return;
+  return passwordNumeric;
 }
 
 function stepFour() {
@@ -81,7 +85,7 @@ function stepFour() {
   } else {//if false,
     alert("No problem! We'll just leave those out.");
   }
-  return;
+  return passwordSpecial;
 }
 
 
