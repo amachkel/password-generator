@@ -35,36 +35,57 @@ generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
   var passwordLength = stepOne();
-
+  var passwordCase = stepTwo();
+  var passwordNumeric = stepThree();
+  var passwordSpecial = stepFour();
 }
 
 function stepOne() {
-  var passwordLength = prompt('How long do you want your password? Choose between 8-128 characters.');
-  var stringToNum = parseInt(passwordLength);
-  console.log(stringToNum);
-  if ((isNaN(stringToNum)) || (stringToNum <8 || stringToNum >128)) {
-   console.log("hi there");
-    alert("Invalid. Pick a number of characters between 8-128.");
-    stepOne();
-  }
-}
-  var passwordCase = confirm("Include uppercase?");
-  var passwordNumeric = confirm("Include numbers?");
-  var passwordSpecial = confirm("Include special characters?");
-
-  //"128"
+  var passwordLength = prompt(
+    "How long do you want your password? Choose between 8-128 characters."
+  );
   //convert string to number
-
+  var stringToNum = parseInt(passwordLength);
   //if failed, alert invalid, prompt to re-input
+  if (isNaN(stringToNum) || stringToNum < 8 || stringToNum > 128) {
+    alert("Invalid. Pick a number of characters between 8-128.");
+    stepOne(); //After alert, user will be prompted again.
+  }
+  return;//On to next step!
+}
 
-    //run passwordLength prompt again. Need it wrapped in function
+function stepTwo() {
+  var passwordCase = confirm("Include uppercase?");
+  if (passwordCase) {//if true,
+    alert("Uppercase characters will be included.");
+  } else {//if false,
+    alert("Okay, only lowercase then!");
+  }
+  return;
+}
+
+function stepThree() {
+  var passwordNumeric = confirm("Include numbers?");
+  if (passwordNumeric) {//if true,
+    alert("Numbers it is!");
+  } else {//if false,
+    alert("No numbers, got it.");
+  }
+  return;
+}
+
+function stepFour() {
+  var passwordSpecial = confirm("Include special characters?");
+  if (passwordSpecial) {//if true,
+    alert("Alright, we can add those.");
+  } else {//if false,
+    alert("No problem! We'll just leave those out.");
+  }
+  return;
+}
 
 
-  //if true, next prompt: passwordCase
 
-  //next prompt: numbers
-  //next prompt: special characters
-  //check that at least one option is selected (store answers in variable),
-  //if false, prompt("invalid. choose something"). Then loop to passwordCase prompt.
-  //else, generate password using stored values.
-  //alert or display generated password.
+//check that at least one option is selected (store answers in variable),
+//Generate password using stored values.
+//alert or display generated password.
