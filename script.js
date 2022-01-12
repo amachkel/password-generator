@@ -38,10 +38,16 @@ function generatePassword() {
   var passwordCase = stepTwo();
   var passwordNumeric = stepThree();
   var passwordSpecial = stepFour();
+
   console.log(passwordLength);
   console.log(passwordCase);
   console.log(passwordNumeric);
   console.log(passwordSpecial);
+
+  if (!passwordCase && !passwordNumeric && !passwordSpecial) {
+    alert("No, wait! You have to select 'OK' for at least one option.");
+    generatePassword();
+  }
 }
 
 function stepOne() {
