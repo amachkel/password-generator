@@ -1,64 +1,11 @@
-// Assignment Code
-var generateBtn = document.querySelector("#generate");
+//Question 1: 169-172, I tried to cancel program if user chooses cancel. It only ever comes back with my "Invalid!" alert.
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+//Question 2: When user chooses options, the number of each option to be included is generated randomly... how do I remove the possibility
+//of that random value returning as 0? As in, if the user chooses to include capital letters as well, how do I guarantee there will be at
+//least one capital letter?
 
-  passwordText.value = password;
-}
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-
-function generatePassword() {
-  var passwordLength = stepOne();
-  var passwordCase = stepTwo();
-  var passwordNumeric = stepThree();
-  var passwordSpecial = stepFour();
-  //must call variables in stepFive
-  var options = stepFive(passwordCase, passwordNumeric, passwordSpecial);
-  // console.log(options);
-  // console.log(passwordLength);
-  // console.log(passwordCase);
-  // console.log(passwordNumeric);
-  // console.log(passwordSpecial);
-  //check that at least one option is selected
-  if (!passwordCase && !passwordNumeric && !passwordSpecial) {
-    alert("No, wait! You have to select 'OK' for at least one option.");
-    generatePassword(); //starts prompts over from beginning.
-  }
-  var password = "";
-  //increment with for loop until it reaches desired password length.
-  for (var i = 0; i < passwordLength; i++) {
-    var currentOption = getRandomFromArray(options);
-    switch (currentOption) {
-      //if 'lowercase' is pushed to options array, add random number of string values from lowerCase array to password.
-      case "lowerCase":
-        password += getRandomFromArray(lowerCase);
-        break;
-      //if 'uppercase' is pushed to options, add random number of string values from upperCase array.
-      case "upperCase":
-        password += getRandomFromArray(upperCase);
-        break;
-      //if 'numbers' is pushed to options, add random number of string values from numbers.
-      case "numbers":
-        password += getRandomFromArray(numbers);
-        break;
-      //if 'special' is pushed to options, add random number of string values from special.
-      case "special":
-        password += getRandomFromArray(special);
-      default:
-        //if no values are pushed to options array, default is all lowercase.
-        //This should never happen, because if nothing is selected, user is alerted with error and generatePassword() is called.
-        password += getRandomFromArray(lowerCase);
-    }
-  }
-  return password;
-}
 //need arrays for each category.
-var upperCase = [
+var arrUpperCase = [
   "A",
   "B",
   "C",
@@ -87,7 +34,7 @@ var upperCase = [
   "Z",
 ];
 
-var lowerCase = [
+var arrLowerCase = [
   "a",
   "b",
   "c",
@@ -115,8 +62,8 @@ var lowerCase = [
   "y",
   "z",
 ];
-var numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-var special = [
+var arrNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+var arrSpecial = [
   '"',
   "!",
   "#",
@@ -150,8 +97,66 @@ var special = [
   "|",
   "~",
 ];
-console.log(special.length);
-function stepOne() {
+
+// Assignment Code
+var generateBtn = document.querySelector("#generate");
+
+// Write password to the #password input
+function writePassword() {
+  var password = generatePassword();
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+}
+
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
+function generatePassword() {
+  var passwordLength = getPasswordLength();
+  var lowerCase = addLowerCase();
+  var upperCase = addUpperCase();
+  var passwordNumeric = addNumbers();
+  var passwordSpecial = addSpecialCharacters();
+  
+  //must call variables in getPasswordCharacters
+  var options = getPasswordCharacters(upperCase, lowerCase, passwordNumeric, passwordSpecial);
+  //check that at least one option is selected
+  if (!upperCase && !lowerCase && !passwordNumeric && !passwordSpecial) {
+    alert("No, wait! You have to select 'OK' for at least one option.");
+    generatePassword(); //starts prompts over from beginning.
+  }
+  var password = "";
+  //increment with for loop until it reaches desired password length.
+  for (var i = 0; i < passwordLength; i++) {
+    var currentOption = getRandomFromArray(options);
+    switch (currentOption) {
+      //if 'lowercase' is pushed to options array, add random number of string values from lowerCase array to password.
+      case "lowerCase":
+        password += getRandomFromArray(arrLowerCase);
+        break;
+      //if 'uppercase' is pushed to options, add random number of string values from upperCase array.
+      case "upperCase":
+        password += getRandomFromArray(arrUpperCase);
+        break;
+      //if 'numbers' is pushed to options, add random number of string values from numbers.
+      case "numbers":
+        password += getRandomFromArray(arrNumbers);
+        break;
+      //if 'special' is pushed to options, add random number of string values from special.
+      case "special":
+        password += getRandomFromArray(arrSpecial);
+      // default:
+      //if no values are pushed to options array, default is all lowercase.
+      //This should never happen, because if nothing is selected, user is alerted with error and generatePassword() is called.
+      // password += getRandomFromArray(lowerCase);
+    }
+  }
+  return password;
+}
+
+
+function getPasswordLength() {
   var passwordLength = prompt(
     "How long do you want your password? Choose between 8-128 characters."
   );
@@ -160,7 +165,7 @@ function stepOne() {
   //if failed, alert invalid, prompt to re-input
   if (isNaN(stringToNum) || stringToNum < 8 || stringToNum > 128) {
     alert("Invalid. Pick a number of characters between 8-128.");
-    stepOne(); //After alert, user will be prompted again.
+    getPasswordLength(); //After alert, user will be prompted again.
   }
   //wanted to end program if user chose cancel. Doesn't work.
   // if(!passwordLength) {
@@ -169,19 +174,31 @@ function stepOne() {
   return stringToNum; //returns user's choice to passwordLength.
 }
 
-function stepTwo() {
-  var passwordCase = confirm("Include uppercase?");
-  if (passwordCase) {
+function addUpperCase() {
+  var upperCase = confirm("Include uppercase?");
+  if (upperCase) {
     //if true,
     alert("Uppercase characters will be included.");
   } else {
     //if false,
-    alert("Okay, only lowercase then!");
+    alert("Okay, we'll keep them out!");
   }
-  return passwordCase;
+  return upperCase;
 }
 
-function stepThree() {
+function addLowerCase() {
+  var lowerCase = confirm("Include lowercase?");
+  if (lowerCase) {
+    //if true,
+    alert("Okay, let's toss some in!");
+  } else {
+    //if false,
+    alert("That's a no. Sure thing.");
+  }
+  return lowerCase;
+}
+
+function addNumbers() {
   var passwordNumeric = confirm("Include numbers?");
   if (passwordNumeric) {
     //if true,
@@ -193,7 +210,7 @@ function stepThree() {
   return passwordNumeric;
 }
 
-function stepFour() {
+function addSpecialCharacters() {
   var passwordSpecial = confirm("Include special characters?");
   if (passwordSpecial) {
     //if true,
@@ -205,18 +222,16 @@ function stepFour() {
   return passwordSpecial;
 }
 
-//with variables as stepFive paramaters, we can get user's choice and push respective string values in options array.
+//with variables as getPasswordCharacters paramaters, we can get user's choice and push respective string values in options array.
 //The resulting options are then used in a switch statement within generatePassword() to add the corresponding string values to password.
 //getRandomFromArray() randomizes how many from each option selected.
-function stepFive(passwordCase, passwordNumeric, passwordSpecial) {
-  //logs as true or false, depending on user's choice
-  console.log(passwordCase);
-  console.log(passwordNumeric);
-  console.log(passwordSpecial);
-  //Always have lowercase available
-  var options = ["lowerCase"];
+function getPasswordCharacters(upperCase, lowerCase, passwordNumeric, passwordSpecial) {
+  var options = [];
   //if user wants uppercase(is truthy), push to options array
-  if (passwordCase) {
+  if (lowerCase) {
+    options.push("lowerCase");
+  }
+  if (upperCase) {
     options.push("upperCase");
   }
   //if truthy, push to options
