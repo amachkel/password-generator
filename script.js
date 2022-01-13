@@ -1,24 +1,3 @@
-/*
-
-GIVEN I need a new, secure password
-[x] WHEN I click the button to generate a password
-[x] THEN I am presented with a series of prompts for password criteria
-
-[x] WHEN prompted for password criteria
-[x] THEN I select which criteria to include in the password
-[x] WHEN prompted for the length of the password
-[x] THEN I choose a length of at least 8 characters and no more than 128 characters
-[x] WHEN asked for character types to include in the password
-[x] THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
-[x] WHEN I answer each prompt
-[x] THEN my input should be validated and at least one character type should be selected
-[x] WHEN all prompts are answered
-[ ] THEN a password is generated that matches the selected criteria
-[ ] WHEN the password is generated
-[ ] THEN the password is either displayed in an alert or written to the page
-
-*/
-
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
@@ -38,8 +17,9 @@ function generatePassword() {
   var passwordCase = stepTwo();
   var passwordNumeric = stepThree();
   var passwordSpecial = stepFour();
+  //must call variables in stepFive
   var options = stepFive(passwordCase, passwordNumeric, passwordSpecial);
-  console.log(options);
+  // console.log(options);
   // console.log(passwordLength);
   // console.log(passwordCase);
   // console.log(passwordNumeric);
@@ -50,21 +30,28 @@ function generatePassword() {
     generatePassword(); //starts prompts over from beginning.
   }
   var password = "";
+  //increment with for loop until it reaches desired password length.
   for (var i = 0; i < passwordLength; i++) {
     var currentOption = getRandomFromArray(options);
     switch (currentOption) {
+      //if 'lowercase' is pushed to options array, add random number of string values from lowerCase array to password.
       case "lowerCase":
         password += getRandomFromArray(lowerCase);
         break;
+      //if 'uppercase' is pushed to options, add random number of string values from upperCase array.
       case "upperCase":
         password += getRandomFromArray(upperCase);
         break;
+      //if 'numbers' is pushed to options, add random number of string values from numbers.
       case "numbers":
         password += getRandomFromArray(numbers);
         break;
+      //if 'special' is pushed to options, add random number of string values from special.
       case "special":
         password += getRandomFromArray(special);
       default:
+        //if no values are pushed to options array, default is all lowercase.
+        //This should never happen, because if nothing is selected, user is alerted with error and generatePassword() is called.
         password += getRandomFromArray(lowerCase);
     }
   }
@@ -218,12 +205,15 @@ function stepFour() {
   return passwordSpecial;
 }
 
-//Generate password using stored values.
+//with variables as stepFive paramaters, we can get user's choice and push respective string values in options array.
+//The resulting options are then used in a switch statement within generatePassword() to add the corresponding string values to password.
+//getRandomFromArray() randomizes how many from each option selected.
 function stepFive(passwordCase, passwordNumeric, passwordSpecial) {
-  //Always have lowercase available
+  //logs as true or false, depending on user's choice
   console.log(passwordCase);
   console.log(passwordNumeric);
   console.log(passwordSpecial);
+  //Always have lowercase available
   var options = ["lowerCase"];
   //if user wants uppercase(is truthy), push to options array
   if (passwordCase) {
@@ -239,11 +229,7 @@ function stepFive(passwordCase, passwordNumeric, passwordSpecial) {
   }
   return options;
 }
-//random # of characters per category user chose
+//random number of characters per category user chose
 function getRandomFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
-//Math.floor(Math.random() * array.length), for
-//Math.floor(Math.random() * array.length), for the values
-//increment with for loop until === passwordLength.
-//alert or display generated password.
