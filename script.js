@@ -104,6 +104,9 @@ var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
+  if (password == undefined) {
+    return;
+  }
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
@@ -114,13 +117,21 @@ generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
   var passwordLength = getPasswordLength();
+  if (!passwordLength) {
+    return;
+  }
   var lowerCase = addLowerCase();
   var upperCase = addUpperCase();
   var passwordNumeric = addNumbers();
   var passwordSpecial = addSpecialCharacters();
-  
+
   //must call variables in getPasswordCharacters
-  var options = getPasswordCharacters(upperCase, lowerCase, passwordNumeric, passwordSpecial);
+  var options = getPasswordCharacters(
+    upperCase,
+    lowerCase,
+    passwordNumeric,
+    passwordSpecial
+  );
   //check that at least one option is selected
   if (!upperCase && !lowerCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
@@ -146,20 +157,18 @@ function generatePassword() {
       //if 'special' is pushed to options, add random number of string values from special.
       case "special":
         password += getRandomFromArray(arrSpecial);
-      // default:
-      //if no values are pushed to options array, default is all lowercase.
-      //This should never happen, because if nothing is selected, user is alerted with error and generatePassword() is called.
-      // password += getRandomFromArray(lowerCase);
     }
   }
   return password;
 }
 
-
 function getPasswordLength() {
   var passwordLength = prompt(
     "How long do you want your password? Choose between 8-128 characters."
   );
+  if (!passwordLength) {
+    return false;
+  }
   //convert string to number
   var stringToNum = parseInt(passwordLength);
   //if failed, alert invalid, prompt to re-input
@@ -167,10 +176,7 @@ function getPasswordLength() {
     alert("Invalid. Pick a number of characters between 8-128.");
     getPasswordLength(); //After alert, user will be prompted again.
   }
-  //wanted to end program if user chose cancel. Doesn't work.
-  // if(!passwordLength) {
-  //   return;
-  // }
+
   return stringToNum; //returns user's choice to passwordLength.
 }
 
@@ -225,7 +231,12 @@ function addSpecialCharacters() {
 //with variables as getPasswordCharacters paramaters, we can get user's choice and push respective string values in options array.
 //The resulting options are then used in a switch statement within generatePassword() to add the corresponding string values to password.
 //getRandomFromArray() randomizes how many from each option selected.
-function getPasswordCharacters(upperCase, lowerCase, passwordNumeric, passwordSpecial) {
+function getPasswordCharacters(
+  upperCase,
+  lowerCase,
+  passwordNumeric,
+  passwordSpecial
+) {
   var options = [];
   //if user wants uppercase(is truthy), push to options array
   if (lowerCase) {
