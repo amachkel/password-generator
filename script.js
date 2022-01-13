@@ -11,8 +11,8 @@ GIVEN I need a new, secure password
 [x] WHEN asked for character types to include in the password
 [x] THEN I confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
 [x] WHEN I answer each prompt
-[ ] THEN my input should be validated and at least one character type should be selected
-[ ] WHEN all prompts are answered
+[x] THEN my input should be validated and at least one character type should be selected
+[x] WHEN all prompts are answered
 [ ] THEN a password is generated that matches the selected criteria
 [ ] WHEN the password is generated
 [ ] THEN the password is either displayed in an alert or written to the page
@@ -38,18 +38,111 @@ function generatePassword() {
   var passwordCase = stepTwo();
   var passwordNumeric = stepThree();
   var passwordSpecial = stepFour();
-
+  var options = stepFive();
   console.log(passwordLength);
   console.log(passwordCase);
   console.log(passwordNumeric);
   console.log(passwordSpecial);
-
+  //check that at least one option is selected
   if (!passwordCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
-    generatePassword();
+    generatePassword(); //starts prompts over from beginning.
   }
 }
+//need arrays for each category.
+var upperCase = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
+var lowerCase = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+];
+var numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+var special = [
+  '"',
+  "!",
+  "#",
+  "$",
+  "%",
+  "&",
+  "'",
+  "(",
+  ")",
+  "*",
+  "+",
+  ",",
+  "-",
+  ".",
+  "/",
+  ":",
+  ";",
+  "<",
+  "=",
+  ">",
+  "?",
+  "@",
+  "[",
+  "]",
+  "\\",
+  "^",
+  "_",
+  "`",
+  "{",
+  "}",
+  "|",
+  "~",
+];
+console.log(special.length);
 function stepOne() {
   var passwordLength = prompt(
     "How long do you want your password? Choose between 8-128 characters."
@@ -61,14 +154,20 @@ function stepOne() {
     alert("Invalid. Pick a number of characters between 8-128.");
     stepOne(); //After alert, user will be prompted again.
   }
+  //wanted to end program if user chose cancel. Doesn't work.
+  // if(!passwordLength) {
+  //   return;
+  // }
   return stringToNum; //returns user's choice to passwordLength.
 }
 
 function stepTwo() {
   var passwordCase = confirm("Include uppercase?");
-  if (passwordCase) {//if true,
+  if (passwordCase) {
+    //if true,
     alert("Uppercase characters will be included.");
-  } else {//if false,
+  } else {
+    //if false,
     alert("Okay, only lowercase then!");
   }
   return passwordCase;
@@ -76,9 +175,11 @@ function stepTwo() {
 
 function stepThree() {
   var passwordNumeric = confirm("Include numbers?");
-  if (passwordNumeric) {//if true,
+  if (passwordNumeric) {
+    //if true,
     alert("Numbers it is!");
-  } else {//if false,
+  } else {
+    //if false,
     alert("No numbers, got it.");
   }
   return passwordNumeric;
@@ -86,16 +187,48 @@ function stepThree() {
 
 function stepFour() {
   var passwordSpecial = confirm("Include special characters?");
-  if (passwordSpecial) {//if true,
+  if (passwordSpecial) {
+    //if true,
     alert("Alright, we can add those.");
-  } else {//if false,
+  } else {
+    //if false,
     alert("No problem! We'll just leave those out.");
   }
   return passwordSpecial;
 }
 
-
-
-//check that at least one option is selected (store answers in variable),
 //Generate password using stored values.
+function stepFive(
+  passwordLength,
+  passwordCase,
+  passwordNumeric,
+  passwordSpecial,
+  upperCase,
+  lowerCase,
+  numbers,
+  special
+) {
+  //Always have lowercase available
+  var options = ['lowerCase'];
+//if user wants uppercase(is truthy), push to options array
+  if (passwordCase) {
+    options.push('upperCase');
+  }
+  //if truthy, push to options
+  if (passwordNumeric) {
+    options.push('numbers');
+  }
+  //if truthy, push to options
+  if (passwordSpecial) {
+    options.push('special');
+  }
+  return options;
+}
+//random # of characters per category user chose
+function getOption(options) {
+  return options[Math.floor(Math.random() * options.length)];
+}
+//Math.floor(Math.random() * array.length), for 
+//Math.floor(Math.random() * array.length), for the values
+//increment with for loop until === passwordLength.
 //alert or display generated password.
