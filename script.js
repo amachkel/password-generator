@@ -1,9 +1,3 @@
-//Question 1: 169-172, I tried to cancel program if user chooses cancel. It only ever comes back with my "Invalid!" alert.
-
-//Question 2: When user chooses options, the number of each option to be included is generated randomly... how do I remove the possibility
-//of that random value returning as 0? As in, if the user chooses to include capital letters as well, how do I guarantee there will be at
-//least one capital letter?
-
 //need arrays for each category.
 var arrUpperCase = [
   "A",
