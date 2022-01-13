@@ -38,16 +38,37 @@ function generatePassword() {
   var passwordCase = stepTwo();
   var passwordNumeric = stepThree();
   var passwordSpecial = stepFour();
-  var options = stepFive();
-  console.log(passwordLength);
-  console.log(passwordCase);
-  console.log(passwordNumeric);
-  console.log(passwordSpecial);
+  var options = stepFive(passwordCase, passwordNumeric, passwordSpecial);
+  console.log(options);
+  // console.log(passwordLength);
+  // console.log(passwordCase);
+  // console.log(passwordNumeric);
+  // console.log(passwordSpecial);
   //check that at least one option is selected
   if (!passwordCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
     generatePassword(); //starts prompts over from beginning.
   }
+  var password = "";
+  for (var i = 0; i < passwordLength; i++) {
+    var currentOption = getRandomFromArray(options);
+    switch (currentOption) {
+      case "lowerCase":
+        password += getRandomFromArray(lowerCase);
+        break;
+      case "upperCase":
+        password += getRandomFromArray(upperCase);
+        break;
+      case "numbers":
+        password += getRandomFromArray(numbers);
+        break;
+      case "special":
+        password += getRandomFromArray(special);
+      default:
+        password += getRandomFromArray(lowerCase);
+    }
+  }
+  return password;
 }
 //need arrays for each category.
 var upperCase = [
@@ -198,37 +219,31 @@ function stepFour() {
 }
 
 //Generate password using stored values.
-function stepFive(
-  passwordLength,
-  passwordCase,
-  passwordNumeric,
-  passwordSpecial,
-  upperCase,
-  lowerCase,
-  numbers,
-  special
-) {
+function stepFive(passwordCase, passwordNumeric, passwordSpecial) {
   //Always have lowercase available
-  var options = ['lowerCase'];
-//if user wants uppercase(is truthy), push to options array
+  console.log(passwordCase);
+  console.log(passwordNumeric);
+  console.log(passwordSpecial);
+  var options = ["lowerCase"];
+  //if user wants uppercase(is truthy), push to options array
   if (passwordCase) {
-    options.push('upperCase');
+    options.push("upperCase");
   }
   //if truthy, push to options
   if (passwordNumeric) {
-    options.push('numbers');
+    options.push("numbers");
   }
   //if truthy, push to options
   if (passwordSpecial) {
-    options.push('special');
+    options.push("special");
   }
   return options;
 }
 //random # of characters per category user chose
-function getOption(options) {
-  return options[Math.floor(Math.random() * options.length)];
+function getRandomFromArray(array) {
+  return array[Math.floor(Math.random() * array.length)];
 }
-//Math.floor(Math.random() * array.length), for 
+//Math.floor(Math.random() * array.length), for
 //Math.floor(Math.random() * array.length), for the values
 //increment with for loop until === passwordLength.
 //alert or display generated password.
