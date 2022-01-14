@@ -3,39 +3,6 @@ var arrUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 var arrLowerCase = "abcdefghijklmnopqrstuvwxyz".split("");
 var arrNumbers = "1234567890".split("");
 var arrSpecial = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".split("");
-//   '"',
-//   "!",
-//   "#",
-//   "$",
-//   "%",
-//   "&",
-//   "'",
-//   "(",
-//   ")",
-//   "*",
-//   "+",
-//   ",",
-//   "-",
-//   ".",
-//   "/",
-//   ":",
-//   ";",
-//   "<",
-//   "=",
-//   ">",
-//   "?",
-//   "@",
-//   "[",
-//   "]",
-//   "\\",
-//   "^",
-//   "_",
-//   "`",
-//   "{",
-//   "}",
-//   "|",
-//   "~",
-// ];
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
@@ -51,19 +18,12 @@ function writePassword() {
   passwordText.value = password;
 }
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-
 function generatePassword() {
   var passwordLength = getPasswordLength();
-  if (!passwordLength) {
-    return;
-  }
   var lowerCase = addLowerCase();
   var upperCase = addUpperCase();
   var passwordNumeric = addNumbers();
   var passwordSpecial = addSpecialCharacters();
-
   //must call variables in getPasswordCharacters
   var options = getPasswordCharacters(
     upperCase,
@@ -71,13 +31,17 @@ function generatePassword() {
     passwordNumeric,
     passwordSpecial
   );
+  var password = "";
 
+  if (!passwordLength) {
+    return;
+  }
   //check that at least one option is selected
   if (!upperCase && !lowerCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
     generatePassword(); //starts prompts over from beginning.
   }
-  var password = "";
+
   //increment with for loop until it reaches desired password length.
   for (var i = 0; i < passwordLength; i++) {
     var currentOption = getRandomFromArray(options);
@@ -106,11 +70,12 @@ function getPasswordLength() {
   var passwordLength = prompt(
     "How long do you want your password? Choose between 8-128 characters."
   );
+  //convert string to number
+  var stringToNum = parseInt(passwordLength);
+
   if (!passwordLength) {
     return false;
   }
-  //convert string to number
-  var stringToNum = parseInt(passwordLength);
   //if failed, alert invalid, prompt to re-input
   if (isNaN(stringToNum) || stringToNum < 8 || stringToNum > 128) {
     alert("Invalid. Pick a number of characters between 8-128.");
@@ -195,7 +160,10 @@ function getPasswordCharacters(
   }
   return options;
 }
+
 //random number of characters per category user chose
 function getRandomFromArray(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
