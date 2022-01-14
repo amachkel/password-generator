@@ -41,24 +41,28 @@ function generatePassword() {
     alert("No, wait! You have to select 'OK' for at least one option.");
     generatePassword(); //starts prompts over from beginning.
   }
-
+  //function chooses randomly from any array.
+  function getRandomFromArray(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
   //increment with for loop until it reaches desired password length.
   for (var i = 0; i < passwordLength; i++) {
+    //randomly chooses from options user selected. (ex. if user chooses all 4 options, each character chosen has a 25% chance of being any option.)
     var currentOption = getRandomFromArray(options);
     switch (currentOption) {
-      //if 'lowercase' is pushed to options array, add random number of string values from lowerCase array to password.
+      //if 'lowercase' is pushed to options array, randomly chooses character from arrLowerCase.
       case "lowerCase":
         password += getRandomFromArray(arrLowerCase);
         break;
-      //if 'uppercase' is pushed to options, add random number of string values from upperCase array.
+      //if 'uppercase' is pushed to options, randomly chooses character from arrUpperCase.
       case "upperCase":
         password += getRandomFromArray(arrUpperCase);
         break;
-      //if 'numbers' is pushed to options, add random number of string values from numbers.
+      //if 'numbers' is pushed to options, randomly chooses character from arrNumbers.
       case "numbers":
         password += getRandomFromArray(arrNumbers);
         break;
-      //if 'special' is pushed to options, add random number of string values from special.
+      //if 'special' is pushed to options, randomly chooses character from arrSpecial.
       case "special":
         password += getRandomFromArray(arrSpecial);
     }
@@ -161,9 +165,5 @@ function getPasswordCharacters(
   return options;
 }
 
-//random number of characters per category user chose
-function getRandomFromArray(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
