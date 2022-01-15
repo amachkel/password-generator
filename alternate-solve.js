@@ -1,3 +1,10 @@
+// Instead of randomizing the user's character type choices and then randomizing and choosing the characters from their
+// respective arrays, this solve just adds all of the possible characters from the user's type choices to an array and 
+// then randomly chooses from there. There's a disproportionate chance of getting certain character types, and the 
+// probability of not getting a single character from one or more character types is higher this way. This is why I 
+// chose to stick with the other solve, because it evens the playing field by first randomly choosing a character type, 
+// and then choosing from its array. It's still possible not to get a character type, but it's a lot less likely.
+
 //need arrays for each category.
 var arrUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var arrLowerCase = "abcdefghijklmnopqrstuvwxyz";
