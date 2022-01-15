@@ -20,6 +20,12 @@ function writePassword() {
 
 function generatePassword() {
   var passwordLength = getPasswordLength();
+  //if user selected cancel and passwordLength is returned false, or !passwordLength, return nothing. Prompts stop.
+  //"if statement" is placed here between passwordLength and lowerCase so that no other functions will run if user hits cancel.
+  if (!passwordLength) {
+    return;
+  }
+
   var lowerCase = addLowerCase();
   var upperCase = addUpperCase();
   var passwordNumeric = addNumbers();
@@ -33,9 +39,6 @@ function generatePassword() {
   );
   var password = "";
 
-  if (!passwordLength) {
-    return;
-  }
   //check that at least one option is selected
   if (!upperCase && !lowerCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
@@ -75,9 +78,11 @@ function getPasswordLength() {
     "How long do you want your password? Choose between 8-128 characters."
   );
   //convert string to number
+  console.log(passwordLength);
   var stringToNum = parseInt(passwordLength);
 
-  if (!passwordLength) {
+  //if user hits cancel, return false to passwordLength.
+  if (passwordLength == null) {
     return false;
   }
   //if failed, alert invalid, prompt to re-input
@@ -137,9 +142,12 @@ function addSpecialCharacters() {
   return passwordSpecial;
 }
 
-//with variables as getPasswordCharacters paramaters, we can get user's choice and push respective string values in options array.
-//The resulting options are then used in a switch statement within generatePassword() to add the corresponding string values to password.
-//getRandomFromArray() randomizes how many from each option selected.
+// with variables as getPasswordCharacters paramaters, we can get user's choice
+// and push respective string values in options array. The resulting options are
+// then used in a switch statement within generatePassword() to add the
+// corresponding string values to password. This gives each character type equal
+// opportunity/probability to be selected. getRandomFromArray() randomizes how many
+// from each option selected.
 function getPasswordCharacters(
   upperCase,
   lowerCase,
