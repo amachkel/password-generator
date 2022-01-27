@@ -42,7 +42,7 @@ function generatePassword() {
   //check that at least one option is selected
   if (!upperCase && !lowerCase && !passwordNumeric && !passwordSpecial) {
     alert("No, wait! You have to select 'OK' for at least one option.");
-    generatePassword(); //starts prompts over from beginning.
+    return; //starts prompts over from beginning.
   }
   //function chooses randomly from any array.
   function getRandomFromArray(array) {
@@ -78,7 +78,6 @@ function getPasswordLength() {
     "How long do you want your password? Choose between 8-128 characters."
   );
   //convert string to number
-  console.log(passwordLength);
   var stringToNum = parseInt(passwordLength);
 
   //if user hits cancel, return false to passwordLength.
