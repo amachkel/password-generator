@@ -88,10 +88,11 @@ function getPasswordLength() {
   //if failed, alert invalid, prompt to re-input
   if (isNaN(stringToNum) || stringToNum < 8 || stringToNum > 128) {
     alert("Invalid. Pick a number of characters between 8-128.");
-    getPasswordLength(); //After alert, user will be prompted again.
+    passwordLength = null;
+//After alert, user will need to click generate password again.
+  } else {
+    return stringToNum; //returns user's choice to passwordLength.
   }
-
-  return stringToNum; //returns user's choice to passwordLength.
 }
 
 function addUpperCase() {
